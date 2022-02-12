@@ -1,6 +1,4 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
 import Header from './components/Header.vue'
 import WarningMessage from './components/WarningMessage.vue'
 import Form from './components/Form.vue'
