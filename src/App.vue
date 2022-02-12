@@ -1,59 +1,19 @@
 <script setup>
 import HelloWorld from './components/HelloWorld.vue'
 import TheWelcome from './components/TheWelcome.vue'
+import Header from './components/Header.vue'
+import WarningMessage from './components/WarningMessage.vue'
+import Form from './components/Form.vue'
+import List from './components/List.vue'
+
 </script>
 
 <template>
   <div class="wrapper">
-      <div class="header">
-        <h1 class="title">Vue 3 To Do Application</h1>
-        <div class="filters">
-          <div class="filter">
-            <p>All (21)</p>
-          </div>
-          <div class="filter">
-            <p>Completed (21)</p>
-          </div>
-          <div class="filter">
-            <p>Left (21)</p>
-          </div>
-        </div>
-      </div>
-      <div class="warning-message">
-        Everything is fine!
-      </div>
-      <div class="form-wrapper">
-        <form action="#">
-          <input type="text" class="to-do-input" placeholder="What's next...">
-          <button type="submit" class="submit">Submit</button>
-        </form>
-      </div>
-    <div class="item-list">
-      <div class="item">
-        <p>Hello world</p>
-        <div class="actions">
-          <button><font-awesome-icon icon="check" /></button>
-          <button><font-awesome-icon icon="arrow-rotate-left" /></button>
-          <button><font-awesome-icon icon="xmark" /></button>
-        </div>
-      </div>
-      <div class="item">
-        <p>Hello world</p>
-        <div class="actions">
-          <button><font-awesome-icon icon="check" /></button>
-          <button><font-awesome-icon icon="arrow-rotate-left" /></button>
-          <button><font-awesome-icon icon="xmark" /></button>
-        </div>
-      </div>
-      <div class="item">
-        <p>Hello world</p>
-        <div class="actions">
-          <button><font-awesome-icon icon="check" /></button>
-          <button><font-awesome-icon icon="arrow-rotate-left" /></button>
-          <button><font-awesome-icon icon="xmark" /></button>
-        </div>
-      </div>
-    </div>
+    <Header></Header>
+    <WarningMessage></WarningMessage>
+    <Form></Form>
+    <List></List>
   </div>
 </template>
 
@@ -75,7 +35,6 @@ import TheWelcome from './components/TheWelcome.vue'
   text-align: center;
 }
 .header {
-  //margin: 23px 0 4px 0;
   padding: 23px 0 4px 0;
   border-bottom: 1px solid #fcdba5;
 }
