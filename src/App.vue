@@ -1,16 +1,49 @@
 <script setup>
+import { ref } from 'vue'
 import Header from './components/Header.vue'
 import WarningMessage from './components/WarningMessage.vue'
 import Form from './components/Form.vue'
 import List from './components/List.vue'
 
+let filters = ref([
+  {
+    title: 'All',
+    isActive: true,
+    id: 0,
+    amount: 0
+  },
+  {
+    title: 'Completed',
+    isActive: false,
+    id: 1,
+    amount: 0
+  },
+  {
+    title: 'Left',
+    isActive: false,
+    id: 2,
+    amount: 0
+  }
+])
+
+let warningMessage = ref('Everything is fine')
+function changeActive(active) {
+  for(let i = 0; i < filters.value.length; i++) {
+    filters.value[i].isActive = filters.value[i].title === active
+  }
+}
+
+function addNewItem(newItem) {
+  console.log(newItem)
+}
+
 </script>
 
 <template>
   <div class="wrapper">
-    <Header></Header>
-    <WarningMessage></WarningMessage>
-    <Form></Form>
+    <Header :filters="filters" @setActive="(active) => changeActive(active)"></Header>
+    <WarningMessage :warning="warningMessage"></WarningMessage>
+    <Form @newToDo="addNewItem"></Form>
     <List></List>
   </div>
 </template>
@@ -48,7 +81,7 @@ import List from './components/List.vue'
   padding: 15px 0;
   background-color: #8f7277;
   cursor: pointer;
-  transition: background-color 0.2s linear;
+  transition: background-color 0.1s linear;
   &:hover{
     background-color: #614e51;
   }
@@ -65,7 +98,7 @@ import List from './components/List.vue'
   text-align: center;
   background-color: #8f7277;
   cursor: pointer;
-  transition: background-color 0.2s linear;
+  transition: background-color 0.1s linear;
  &:hover{
   background-color: #614e51;
   }
@@ -96,10 +129,13 @@ import List from './components/List.vue'
     width: 30px;
     padding-top: 4px;
     background-color: #8f7277;
-    transition: background-color 0.2s linear;
+    transition: background-color 0.1s linear;
     &:hover{
       background-color: #614e51;
     }
   }
+}
+.filter-active {
+  background-color:#614e51;
 }
 </style>

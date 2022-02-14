@@ -9,6 +9,6 @@ defineProps({
 
 <template>
   <div class="warning-message">
-    Everything is fine!
+    {{warning}}
   </div>
 </template>
