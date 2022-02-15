@@ -20,4 +20,4 @@ npm run dev
 npm run build
 ```
 
-![alt text](screenshot.png "Screenshot")
+![alt text](Screenshot.png "Screenshot")
