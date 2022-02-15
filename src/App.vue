@@ -1,50 +1,94 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import Header from './components/Header.vue'
 import WarningMessage from './components/WarningMessage.vue'
 import Form from './components/Form.vue'
 import List from './components/List.vue'
 
-let filters = ref([
-  {
-    title: 'All',
-    isActive: true,
-    id: 0,
-    amount: 0
-  },
-  {
-    title: 'Completed',
-    isActive: false,
-    id: 1,
-    amount: 0
-  },
-  {
-    title: 'Left',
-    isActive: false,
-    id: 2,
-    amount: 0
-  }
-])
-
 let warningMessage = ref('Everything is fine')
+let toDoList = ref([])
+let currentActive = ref('All')
+let filters = computed(() => {
+  let filterItems = [
+    {
+      title: 'All',
+      id: 0,
+      amount: 0
+    },
+    {
+      title: 'Completed',
+      id: 1,
+      amount: 0
+    },
+    {
+      title: 'Left',
+      id: 2,
+      amount: 0
+    }
+  ]
+  filterItems[0].amount = toDoList.value.length
+  const completed = toDoList.value.filter((item) => item.isCompleted)
+  filterItems[1].amount = completed.length
+  filterItems[2].amount = toDoList.value.length - completed.length
+  return filterItems
+})
+
+const filteredToDoList = computed(() => {
+  const toDoListItems = toDoList.value.filter((item) => {
+    if (currentActive.value === 'Completed') {
+      return item.isCompleted
+    } else if (currentActive.value === 'Left') {
+      return !item.isCompleted
+    }
+    return item
+  })
+  return toDoListItems
+})
+
 function changeActive(active) {
-  for(let i = 0; i < filters.value.length; i++) {
-    filters.value[i].isActive = filters.value[i].title === active
-  }
+  currentActive.value = active
 }
 
 function addNewItem(newItem) {
-  console.log(newItem)
+  if(!newItem.length) {
+    warningMessage.value = 'Please fill the input'
+    return false
+  }
+  const index = toDoList.value.findIndex((item) => item.title.toLowerCase() === newItem.toLowerCase())
+  if (index >= 0) {
+    warningMessage.value = 'You already have this note'
+    return false
+  }
+  toDoList.value.push({
+    title: newItem,
+    isCompleted: false
+  })
+  warningMessage.value = 'Everything is fine'
 }
 
+function setCompletedStatus(toDo, status) {
+  if (toDo.isCompleted !== status) {
+    const index = toDoList.value.findIndex((item) => item.title === toDo.title)
+    toDoList.value[index].isCompleted = status
+  }
+}
+
+function removeItem(toDo) {
+  const index = toDoList.value.findIndex((item) => item.title === toDo.title)
+  toDoList.value.splice(index, 1)
+}
 </script>
 
 <template>
   <div class="wrapper">
-    <Header :filters="filters" @setActive="(active) => changeActive(active)"></Header>
+    <Header :filters="filters" :activeTab="currentActive" @setActive="(active) => changeActive(active)"></Header>
     <WarningMessage :warning="warningMessage"></WarningMessage>
     <Form @newToDo="addNewItem"></Form>
-    <List></List>
+    <List
+        :list="filteredToDoList"
+        @changeStatus="(toDo, status) => setCompletedStatus(toDo, status)"
+        @remove="(toDo) => removeItem(toDo)"
+    ></List>
   </div>
 </template>
 

@@ -3,6 +3,10 @@ defineProps({
   filters: {
     type: Array,
     required: false
+  },
+  activeTab: {
+    type: String,
+    required: false
   }
 })
 
@@ -17,7 +21,7 @@ function changeActive(active) {
   <div class="header">
     <h1 class="title">Vue 3 To Do Application</h1>
     <div class="filters">
-      <div :class="['filter', { 'filter-active': filter.isActive }]" v-for="filter in filters" :key="filter.id" @click="changeActive(filter.title)">
+      <div :class="['filter', { 'filter-active': filter.title === activeTab }]" v-for="filter in filters" :key="filter.id" @click="changeActive(filter.title)">
         <p>{{filter.title}} ({{filter.amount}})</p>
       </div>
 <!--      <div class="filter">-->
